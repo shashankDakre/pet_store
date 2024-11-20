@@ -1,0 +1,51 @@
+{% include "header.html" %}
+<body class="text-center" style="background-color: #e9f5ff;">
+    <div class="container mt-5">
+        <div class="card mx-auto shadow-lg" style="width: 30rem; border-radius: 15px;">
+            <div class="row g-0">
+                <div class="col-md-4 d-flex justify-content-center align-items-center">
+                    {% if profile_pic %}
+                    <a href="/account/delete_profile/{{profile_pic.id}}/"><button class="btn btn-danger" style="border-radius: 50%;">x</button></a>
+                    <img src="../../media/{{profile_pic.profile_pic}}" class="img-fluid rounded-circle" alt="Profile Image" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width: 200px; height: 200px;">
+                    {% else %}
+                    <img src="https://via.placeholder.com/200" class="img-fluid rounded-circle" alt="Profile Image" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width: 200px; height: 200px;">
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body text-start">
+                        <h5 class="card-title text-primary">Name: {{user.name}}</h5>
+                        <p class="card-text"><strong>Email:</strong> {{user.email}}</p>
+                        <p class="card-text"><strong>Mobile:</strong> {{user.mobile}}</p>
+                        <p class="card-text"><strong>City:</strong> {{user.city}}</p>
+                        <p class="card-text"><strong>State:</strong> {{user.state}}</p>
+                        <p class="card-text"><strong>Address:</strong> {{user.address}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form action="/account/profile_pic/{{user.id}}/" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Upload Profile Picture</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="file" class="form-control" name="profile_pic" accept="image/*" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% include "footer.html" %}
+</body>

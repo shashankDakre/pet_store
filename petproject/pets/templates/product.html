@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Paradise</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Arial', sans-serif; 
+        }
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        .filter-container {
+            background-color: #f2f2f2;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .pet-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            border-radius: 10px;
+        }
+        .pet-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <a class="navbar-brand" href="/pet/">Pet Paradise</a>
+        <a class="navbar-brand" href="/profile/">Profile</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/pet/">Pet</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cart/">My Cart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/orders/">My Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/wishlist/">WishList</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact/">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary mx-2" href="/account/login/">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <form action="/search/" method="post" class="form-inline">
+                        {% csrf_token %}
+                        <input type="text" name="search" class="form-control" placeholder="Search" aria-label="Search">
+                        <button type="submit" class="btn btn-outline-dark ml-2">Search</button>
+                    </form>
+                </li>            
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="filter-container mb-4">
+                    <h3>Filter</h3>
+                    <form method="post" action="/product/">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="pet-name">Name:</label>
+                            <input type="text" class="form-control" name="name" id="pet-name" placeholder="Enter pet name">
+                        </div>
+                        <h4>Price</h4>
+                        <hr>
+                        <div class="form-group">
+                            <label for="min_price">Min Price:</label>
+                            <input type="number" class="form-control" name="min_price" id="min_price" placeholder="Min Price">
+                        </div>
+                        <div class="form-group">
+                            <label for="max_price">Max Price:</label>
+                            <input type="number" class="form-control" name="max_price" id="max_price" placeholder="Max Price">
+                        </div>
+                        <h4>Age</h4>
+                        <hr>
+                        <div class="form-group">
+                            <label for="min_age">Min Age:</label>
+                            <input type="number" class="form-control" name="min_age" id="min_age" placeholder="Min Age">
+                        </div>
+                        <div class="form-group">
+                            <label for="max_age">Max Age:</label>
+                            <input type="number" class="form-control" name="max_age" id="max_age" placeholder="Max Age">
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender:</label>
+                            <select name="gender" class="form-control" id="gender">
+                                <option value="">Any</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>    
+                        </div>
+                        <div class="form-group">
+                            <label for="breed">Breed:</label>
+                            <input type="text" class="form-control" name="breed" id="breed">
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Filter</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="container p-4 rounded" style="background-color:#f2f2f2;">
+                    <div class="row">
+                        {% if pts %}
+                        {% for pet in pts %}
+                        <div class="col-md-6 mb-4">
+                            <div class="card pet-card">
+                                <img src="../../media/{{pet.image}}" class="card-img-top" alt="{{pet.name}}">
+                                <div class="card-body">
+                                    <h5 class="card-title">Name: {{pet.name}}</h5>
+                                    <h5 class="card-title">Age: {{pet.age}}</h5>
+                                    <h5 class="card-title">Breed: {{pet.breed}}</h5>
+                                    <h5 class="card-title">Gender: {{pet.gender}}</h5>
+                                    <h5 class="card-title">Price: {{pet.price}}</h5>
+                                    <a href="/savetocart/{{pet.id}}/" class="btn btn-primary">Add to Cart</a>
+                                </div>
+                            </div> 
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="col-12">
+                            <div class="alert alert-warning">No pets available</div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>      
+            </div>
+        </div>  
+    </div>
+
+    {% include "footer.html" %}
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

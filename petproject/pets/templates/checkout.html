@@ -1,0 +1,115 @@
+{% include "header.html" %}
+<body>
+    {{ request.session.id }}
+    <input type="hidden" id="session" value="{{ request.session.id }}">
+    <div class="container d-flex justify-content-center" style="margin-top:50px;">
+        <div class="card p-5 rounded" style="width: 30rem; background-color:#f8f9fa;">
+            <h2 class="text-center mb-4">Your Cart</h2>
+            <div class="row">
+                <div class="col-md-12 mb-4">
+                    <div class="card shadow-sm border-light">
+                        <img src="../../media/{{pet.pet.image}}" class="card-img-top" alt="{{pet.pet.name}}" style="height: 400px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{pet.pet.name}}</h5>
+                            <p class="card-text"><strong>Age:</strong> {{pet.pet.age}} years</p>
+                            <p class="card-text"><strong>Breed:</strong> {{pet.pet.breed}}</p>
+                            <p class="card-text"><strong>Gender:</strong> {{pet.pet.gender}}</p>
+                            <p class="card-text"><strong>Price:</strong> {{pet.pet.price}} Rs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container mb-5">
+                <div class="mt-4 card p-4 text-success" style="background-color:white;">
+                    <h4 class="font-weight-bold">Delivery Address:</h4>
+                    <textarea name="address" id="address" placeholder="Your delivery address" rows="6" class="form-control mb-3" style="resize: none;">{{pet.user.address}}</textarea>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between mt-3">
+                <a class="btn btn-danger" id="rzp-button1">Pay Now</a>
+                <span class="font-weight-bold">Total Amount: <span id="total_price" class="text-success">{{pet.total_price}} Rs</span></span>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    let session = document.getElementById('session').value;
+    let payment = parseFloat (document.getElementById('total_price').innerText) * 100;
+    let address = document.getElementById('address').innerHTML;
+  var options = {
+    "key": "rzp_test_a8OmF04Ppiwsc6", // Enter the Key ID generated from the Dashboard
+    "amount": payment,
+    "currency": "INR",
+    "description": "Acme Corp",
+    "image": "example.com/image/rzp.jpg",
+    "prefill":
+    {
+      "email": "dakreshashank@gmail.com",
+      "contact": +917030871210,
+    },
+    config: {
+      display: {
+        blocks: {
+          utib: { //name for Axis block
+            name: "Pay Using Axis Bank",
+            instruments: [
+              {
+                method: "card",
+                issuers: ["UTIB"]
+              },
+              {
+                method: "netbanking",
+                banks: ["UTIB"]
+              },
+            ]
+          },
+          other: { //  name for other block
+            name: "Other Payment Methods",
+            instruments: [
+              {
+                method: "card",
+                issuers: ["ICIC"]
+              },
+              {
+                method: 'netbanking',
+              }
+            ]
+          }
+        },
+        hide: [
+          {
+          method: "upi"
+          }
+        ],
+        sequence: ["block.utib", "block.other"],
+        preferences: {
+          show_default_blocks: false // Should Checkout show its default blocks?
+        }
+      }
+    },
+    "handler": function (response) {
+      //{% comment %} alert(response.razorpay_payment_id); {% endcomment %}
+      window.location.href = `http://localhost:8000/success/{{pet.total_price}}/{{pet.id}}/${response.razorpay_payment_id}/${address}/${session}/`;
+
+    },
+    "modal": {
+      "ondismiss": function () {
+        if (confirm("Are you sure, you want to close the form?")) {
+          txt = "You pressed OK!";
+          console.log("Checkout form closed by the user");
+        } else {
+          txt = "You pressed Cancel!";
+          console.log("Complete the Payment")
+        }
+      }
+    }
+  };
+  var rzp1 = new Razorpay(options);
+  document.getElementById('rzp-button1').onclick = function (e) {
+    rzp1.open();
+    e.preventDefault();
+  }
+</script>
+
+{% include "footer.html" %}

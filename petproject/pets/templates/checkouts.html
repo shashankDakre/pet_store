@@ -1,0 +1,39 @@
+{% include "header.html" %}
+<body>
+    <div class="container d-flex justify-content-center" style="margin-top:50px;">
+        <div class="card p-5 rounded" style="width: 100%; max-width: 1200px; background-color:#f8f9fa;">
+            <h2 class="text-center mb-4">Your Cart</h2>
+            <div class="row">
+                {% if pets %}
+                {% for pet in pets %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm border-light">
+                        <img src="../../media/{{pet.pet.image}}" class="card-img-top" alt="{{pet.pet.name}}" style="height: 400px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{pet.pet.name}}</h5>
+                            <p class="card-text"><strong>Age:</strong> {{pet.pet.age}} years</p>
+                            <p class="card-text"><strong>Breed:</strong> {{pet.pet.breed}}</p>
+                            <p class="card-text"><strong>Gender:</strong> {{pet.pet.gender}}</p>
+                            <p class="card-text"><strong>Price:</strong> {{pet.pet.price}} Rs</p>
+                            <p class="card-text font-weight-bold">Total Price: <span class="text-success">{{pet.total_price}} Rs</span></p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div class="container mb-5">
+                <div class="mt-4 card p-4 text-success" style="background-color:white;">
+                    <h4 class="font-weight-bold">Delivery Address:</h4>
+                    <textarea name="address" id="address" placeholder="Your address" rows="6" class="form-control mb-3" style="resize: none;"></textarea>
+                    <button type="button" name="buy_all" class="btn btn-primary">Add Address</button>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between mt-3">
+                <a href="#" class="btn btn-danger" id="rzp=button">Pay Now</a>
+                <span class="font-weight-bold">Total Amount: <span class="text-success">{{pet.total_price}} Rs</span></span>
+            </div>
+        </div>
+    </div>
+</body>
+{% include "footer.html" %}

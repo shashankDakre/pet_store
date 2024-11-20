@@ -1,0 +1,39 @@
+{% include "header.html" %}
+<body>
+    <div class="container p-5 rounded" style="margin-top:50px;background-color:#f8f9fa;">
+        <h2 class="text-center mb-4">Your Cart</h2>
+        <div class="row">
+            {% for cart in carts %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm border-light">
+                    <img src="../../media/{{cart.pet.image}}" class="card-img-top" alt="{{cart.pet.name}}" style="height: 300px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{cart.pet.name}}</h5>
+                        <p class="card-text">Age: {{cart.pet.age}} years</p>
+                        <p class="card-text">Breed: {{cart.pet.breed}}</p>
+                        <p class="card-text">Gender: {{cart.pet.gender}}</p>
+                        <p class="card-text">Price: {{cart.pet.price}} Rs</p>
+                        <p class="card-text font-weight-bold">Total Price: <span class="text-success">{{cart.total_price}} Rs</span></p>
+                        <div class="d-flex align-items-center">
+                            <a href="/update_quantity/{{cart.id}}/minus/" class="btn btn-danger">-</a>
+                            <input type="number" name="quantity" class="form-control mx-2" value="{{cart.quantity}}" style="width: 70px;">
+                            <a href="/update_quantity/{{cart.id}}/plus/" class="btn btn-success">+</a>
+                        </div>
+                        <div class="mt-3">
+                            <a href="/remove_cart/{{cart.id}}/" class="btn btn-outline-danger">Remove</a>
+                            <a href="/buyapet/{{cart.id}}" class="btn btn-primary">Buy</a>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            {% endfor %}
+        </div>
+        <div class="card p-3 text-center mt-4">
+            <h4 class="font-weight-bold">Grand Total: <span class="text-success">{{grand_total}} Rs</span></h4> 
+            <a href="/buyallpets/" >
+                 <button type='button'  name='buy_all' class="btn btn-danger">Buy </button>
+            </a> 
+        </div>
+    </div>
+</body>
+{% include "footer.html" %}

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Paradise</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .hero {
+            background-image: url('{% static 'pic/photo-1534361960057-19889db9621e.avif' %}');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: left;
+            padding: 100px ;  /* Increased padding for better visibility */
+            position: relative;
+            height: 600px;
+            transition: background-position;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .hero h2 {
+            font-size: 4.5rem;
+            font-weight: bold;
+            z-index: 1;
+            text-align: left;
+            padding: 0px ;
+            margin-bottom: 5px;
+            color: white; /* Ensure the text is white */
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            z-index: 2;
+            margin-bottom: 30px;
+            color: white; /* Ensure the paragraph text is white */
+        }
+
+        .hero a {
+            z-index: 1;
+        }
+
+        .card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-image {
+            height: 450px; /* Adjusted height */
+            object-fit: cover;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 40px 0;
+            margin-top: 40px;
+        }
+
+        footer a {
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #007bff;
+        }
+
+        .content-area {
+            padding-bottom: 60px; /* Ensure footer does not overlap */
+        }
+        
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <a class="navbar-brand" href="/pet/">Pet Paradise</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/account/login/">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/account/register/">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary mx-2" href="logout/">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="container">
+            <h2>Welcome to Pet Paradise!</h2>
+            <p>Your one-stop shop for all pet needs.</p>
+        </div>
+    </div>
+
+    <div class="container my-5 content-area">
+        <h2 class="text-center section-title">Featured Products</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card" >
+                    <img src="{% static 'pic/photo-1714068691256-cd3d65f97795.avif' %}" class="card-img-top product-image" alt="Dog Food">
+                    <div class="card-body">
+                        <a class="card-title" href="/pet/"><h5>Dog</h5></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{% static 'manja-vitolic-gKXKBY-C-Dk-unsplash.jpg' %}" class="card-img-top product-image" alt="Cat Litter">
+                    <div class="card-body">
+                        <a class="card-title" href="/pet/"><h5>Cat</h5></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{% static 'pic/istockphoto-1452414336-1024x1024.jpg' %}" class="card-img-top product-image" alt="Fish Tank">
+                    <div class="card-body">
+                        <a class="card-title" href="/pet/"><h5>Fish</h5></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container text-center">
+            <p>&copy; 2024 Pet Paradise. All rights reserved.</p>
+            <div>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
